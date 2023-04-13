@@ -7,8 +7,10 @@
   - `tensorflow` : `2.12.0`
   - `GPU` : `NVIDIA A100`
 
+
+
 ## (원천) 데이터세트
-ETRI 라이프로그 데이터세트
+- ETRI 라이프로그 데이터세트
   - https://nanum.etri.re.kr/share/schung1/ETRILifelogDataset2020?lang=ko_KR
     - user01-06 data
     - user07-10 data
@@ -16,8 +18,10 @@ ETRI 라이프로그 데이터세트
     - user21-25 data
     - user26-30 data
 
+
+
 ## 데이터 전처리
-- 1차 가공 : 위 사용자별 라이프로그 데이터세트를 합친 결과를 도출하고자 함
+- 1차 가공 : 위 사용자별 라이프로그 데이터세트를 합친 결과를 도출하고자 함 (원천 데이터 처리)
   - data_handing/get_user_data.ipynb (Local)
   - 적용 로직
     - 사용자별 label.csv이 없는 경우 제외
@@ -25,17 +29,14 @@ ETRI 라이프로그 데이터세트
     - ts 컬럼으로부터 파생 변수 생성
       - 년, 월, 일, 오전/오후 여부, 주말여부 등
   - 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
-  - [주의]
-    - 데이터의 용량이 크므로 1차 가공은 로컬에서 수행함 이 때, os, pandas 등의 패키지를 이용하고 있어 설치 필요 (파이썬 버전 무관)
-    - 경로는 아래 캡처를 참조할 것
 
 - 2차 가공 : 1차 가공된 데이터를 기반으로 실제 모델에 이용될 입/출력 데이터세트를 도출하고자 함
   - 첨부 코드 1. 데이터 전처리 (Colab)
-  - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 코랩에서 2차 가공를 수행함
+  - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 Colab에서 2차 가공를 수행함
   - 적용 로직
-    - 널 컬럼 제거
+    - 널(NULL) 컬럼 제거
       - place는 null 1건 제거 402,877건 -> 402,876건
-    - 언더 샘플링
+    - 언더 샘플링(Under Sampling)
       - place 컬럼에서 `restaurant` 값이 가장 적음(18,735건)
       - 전체 402,876건 -> 93,675건으로 축소
       - `Seed` : `1004`
@@ -44,10 +45,12 @@ ETRI 라이프로그 데이터세트
         - 1, 2 -> `부정`, 3, 4, 5 -> `중립`, 6, 7 -> `긍정`
       - `emotionTension` -> `emotionTension_class`
         - 1, 2 -> `차분`, 3, 4, 5 -> `흥미`, 6, 7 -> `흥분` 
-    - 원-핫 인코딩 수행
+    - 원-핫 인코딩(One-hot Encoding) 수행
     - 데이터 셋 분할
       - `T/V/T` : `6:2:2`
       - `Seed` : `1004`
+
+
 
 ## 모델 학습 및 평가
 - 비교, 제안 모델 학습 및 평가
@@ -84,24 +87,29 @@ ETRI 라이프로그 데이터세트
 | 제안모델3_보조분류_활동상세 	|   100-ES   	|       0.8       	|  72.76% 	|    72.27%    	|
 - 제안 모델의 우수성: 이질적 보조분류기를 적용한 모델이 적용하지 않은 모델보다 정확도가 향상됨을 확인
 
-## [첨부] 코드
-**1. 데이터 전처리<br>**
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
 
-- 코드 이용 방법
-  - 코랩을 이용하여 패키지 설치 불필요함
+
+## 코드 이용 방법
+**1. 원천 데이터 처리**
+  - data_handing/get_user_data.ipynb
+  - 데이터의 용량이 크므로 해당 과정은 Colab을 이용하지 않고 로컬에서 1차 가공 과정을 수행함
+  - 일부 패키지 설치 필요 (이 때, 파이썬 버전 무관함)
+    - `conda install -c conda-forge pandas`
+  - 이 때, 1차 가공을 위한 라이프로그 데이터셋의 자세한 경로는 아래 캡처를 참조할 것
+
+
+**2. 데이터 전처리**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
+  - Colab을 이용하 패키지 설치 불필요함
   - 본 실험에서는 모델 과적합을 피하기 위해 언더 샘플링을 수행함
     - 위 첨부 코드에서 `do_undersampling` = `True`로 설정되어 있음
-    - `do_undersampling` = `False`로 설정한다면 만약 언더 샘플링을 수행하지 않음
+    - `do_undersampling` = `False`로 설정한다면 언더 샘플링을 수행하지 않음
   - 2차 가공 결과는 코랩 환경에서의 디스크에 저장되며 해당 데이터 파일을 따로 저장하는 것이 필요함
-    - **본 실험을 위해 결과를 paper_lifelog/main/outputs에 데이터를 업로드해 해당 경로에 있는 데이터를 실험에 이용함**
+    - **본 실험을 위해 결과를 paper_lifelog/main/outputs에 데이터를 업로드하였으며 해당 경로에 있는 데이터를 모델 학습 및 평가에 이용함**
       - https://raw.githubusercontent.com/hkboo/paper_lifelog/main/outputs/data_undersampled.csv
 
-**2. 모델 학습 및 평가(해당 코드는 epoch = 2일 때의 예시가 포함되어 있음)<br>**
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
-
-- 코드 이용 방법
-  - 코랩을 이용하여 패키지 설치 불필요함
+**3. 모델 학습 및 평가**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
+  - 해당 코드는 epoch = 2일 때의 예시를 포함함
+  - Colab을 이용하므로 패키지 설치 불필요함
   - 자동으로 산출물 저장가능케 설정함
     - 본인의 산출물 경로가 있는 경우 `MODEL_OUTPUT_PATH` 변수에 경로 지정할 것
   - 위 첨부 코드에서 `EPOCH_N` 변수에 원하는 Epoch를 지정할 것
