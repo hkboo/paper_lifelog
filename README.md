@@ -1,7 +1,14 @@
 # paper_lifelog
 
-## 데이터셋
-ETRI 라이프로그 데이터셋
+## 실험 환경
+- Colab
+  - `Python` : `3.9.16`
+  - `keras` : `2.12.0`
+  - `tensorflow` : `2.12.0`
+  - `GPU` : `NVIDIA A100`
+
+## (원천) 데이터 셋
+ETRI 라이프로그 데이터세트
   - https://nanum.etri.re.kr/share/schung1/ETRILifelogDataset2020?lang=ko_KR
     - user01-06 data
     - user07-10 data
@@ -10,12 +17,41 @@ ETRI 라이프로그 데이터셋
     - user26-30 data
 
 ## 데이터 전처리
-1) 1차 가공
-2) 2차 가공
+- 1차 가공 : 사용자별 데이터 셋을 1개의 데이터 파일을 도출
+  - data_handing/get_user_data.ipynb
+  - 적용 로직
+    - 사용자별 label.csv이 없는 경우 제외
+    - 행 중복 제거
+    - ts 컬럼으로부터 파생 변수 생성
+      - 년, 월, 일, 오전/오후 여부, 주말여부 등
+  - 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
+  - [주의]
+    - 해당 코드는 로컬에서 돌리는 코드로 os, pandas 등의 패키지를 이용하고 있어 설치 필요 (버전 무관)
+    - 경로는 아래 캡처를 참조할 것
 
+- 2차 가공
+  - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 코랩에서 2차 전처리(첨부 코드 1. 데이터 전처리 참조)를 수행함
+  - 적용 로직
+    - 언더 샘플링
+      - place 컬럼에서 `restaurant` 값이 가장 적음(18,735건)
+      - 전체 402,877건 -> 93,675건으로 축소
+    - 널 컬럼 제거
+      - place는 null 없음
+    - 감정, 흥미도 컬럼 생성
+      - `emotionPositive` -> `emotionPositive_class`
+        - 1, 2 -> 부정, 3, 4, 5 -> 중립, 6, 7 -> 긍정
+      - `emotionTension` -> `emotionTension_class`
+        - 1, 2 -> 차분, 3, 4, 5 -> 흥미, 6, 7 -> 흥분 
+    - 원-핫 인코딩 수행
+    - 데이터 셋 분할
+      - `T/V/T` : `6:2:2`
+      - `seed` : `1004`
+  - 2차 가공 결과는 코랩 환경에서의 디스크에 저장되며 해당 데이터 파일을 따로 저장해야 함
+    - 본 실험을 위해 결과를 paper_lifelog/main/outputs에 데이터를 업로드해 해당 경로에 있는 데이터를 실험에 이용함
+      - https://raw.githubusercontent.com/hkboo/paper_lifelog/main/outputs/data_undersampled.csv
 
 ## 모델 학습 및 평가
-- 2차 가공된 데이터를 이용하여 모델 학습 및 평가 수행
+- 데이터 전처리 과정에서 `2차 가공된 데이터(data_undersampled.csv)`를 이용하여 모델 학습 및 평가 수행
 - 즉, 비교 모델과 제안 모델의 정확도 비교하고자 함
 - Epoch를 제외한 나머지 파라매터는 모두 동일하게 설정하였으며 사용 파라매터는 다음과 같음
   - 사용 파라매터
@@ -61,3 +97,4 @@ ETRI 라이프로그 데이터셋
 
 2. 모델 학습 및 평가<br>
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
+- 해당 코드는 epoch = 2일 때의 예시가 포함되어 있음
