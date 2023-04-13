@@ -60,6 +60,7 @@ ETRI 라이프로그 데이터세트
     - `Batch Size` : `128`
     - `Activation` : `relu`
     - `Optimizer` : `adamax`
+    - `seed` : `1004`
 
 - 코드 사용 방법
   - 코랩을 이용하여 패키지 설치 불필요
@@ -67,7 +68,7 @@ ETRI 라이프로그 데이터세트
     - `MODEL_OUTPUT_PATH` 변수에 경로 지정
   - 하단 첨부 코드에서 `EPOCH_N` 변수에 원하는 Epoch을 지정
     - 본 실험에서는 `10`, `20`, `100`을 지정해 실험 수행
-  - 최종 산출물은 지정된 `MODEL_OUTPUT_PATH' 경로 내 파일명 `전체정확도.csv`로 저장됨
+  - 최종 산출물은 지정된 `MODEL_OUTPUT_PATH` 경로 내 파일명 `전체정확도.csv`로 저장됨
     - 중간 각 모델별로 loop별 개별 결과를 누적해 저장될 수 있도록 함 (함수 `save_result(control_type, result_dataframe)`)
 
 ## 성능 평가 결과
@@ -95,6 +96,5 @@ ETRI 라이프로그 데이터세트
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
 
 
-2. 모델 학습 및 평가<br>
+2. 모델 학습 및 평가(해당 코드는 epoch = 2일 때의 예시가 포함되어 있음)<br>
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
-- 해당 코드는 epoch = 2일 때의 예시가 포함되어 있음
