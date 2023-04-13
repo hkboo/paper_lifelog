@@ -1,6 +1,7 @@
 data.csv
 - 데이터 전처리 과정을 수행한 데이터로 모델의 입, 출력으로 사용되는 데이터이다.
-
+- 라이프로그_데이터전처리.ipynb 에서 do_undersampling = False 설정
 
 data_undersampled.csv
 - 데이터 전처리 과정을 수행한 데이터로 모델의 입, 출력으로 사용되는 데이터이고 이 때, 모델의 출력 값인 클래스 중 가장 최소 수를 가진 클래스를 기준으로 언더샘플링을 적용하였다. (seed: 1004)
+- 라이프로그_데이터전처리.ipynb 에서 do_undersampling = True 설정
