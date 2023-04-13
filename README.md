@@ -5,4 +5,6 @@
 
 
 2. 모델 학습 및 평가<br>
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1lt74_mcAZ7RzJq9Un-vH1C4aHAnRpRKR/view?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
+- Epoch : 100
+- EarlyStopping : monitor='val_loss', mode='min', patience=2
