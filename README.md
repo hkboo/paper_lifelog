@@ -7,6 +7,9 @@
   - `tensorflow` : `2.12.0`
   - `GPU` : `NVIDIA A100`
 
+- Local
+  - 아나콘다 환경 (파이썬 버전 무관)
+  - 1차 가공에 이용됨
 
 
 ## (원천) 데이터세트
@@ -28,14 +31,14 @@
     - 행 중복 제거
     - ts 컬럼으로부터 파생 변수 생성
       - 년, 월, 일, 오전/오후 여부, 주말여부 등
-  - 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
+  - 전체 사용자를 합친 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
 
 - 2차 가공 : 1차 가공된 데이터를 기반으로 실제 모델에 이용될 입/출력 데이터세트를 도출하고자 함
   - 첨부 코드 1. 데이터 전처리 (Colab)
-  - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 Colab에서 2차 가공를 수행함
+  - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 Colab에서 2차 가공 수행함
   - 적용 로직
     - 널(NULL) 컬럼 제거
-      - place는 null 1건 제거 402,877건 -> 402,876건
+      - place는 null 1건 제거 402,877건 -> 402,876건으로 축소
     - 언더 샘플링(Under Sampling)
       - place 컬럼에서 `restaurant` 값이 가장 적음(18,735건)
       - 전체 402,876건 -> 93,675건으로 축소
@@ -57,9 +60,10 @@
   - 첨부 코드 2. 모델 학습 및 평가 (Colab)
   - 데이터 전처리 과정에서 `2차 가공된 데이터(data_undersampled.csv)`를 이용하여 모델 학습 및 평가를 수행함
   - 즉, 비교 모델과 제안 모델의 정확도 비교하고자 함
-  - Epoch를 제외한 나머지 파라매터는 모두 동일하게 설정하였으며 적용 파라매터는 다음과 같음
+  - Epoch와 Loss Weight를 제외한 나머지 파라매터는 모두 고정하였으며 적용 파라매터는 다음과 같음
     - 적용 파라매터
       - `Epoch` : `10`, `20`, `100`
+      - `Loss Weight`: `0`, `0.1`, `0.2`, `0.3`, `0.4`, `0.5`, `0.6`, `0.7`, `0.8`, `0.9`, `0.1` (보조 분류기 적용 모델에 이용됨)
       - `Early Stopping` : `monitor='val_loss', mode='min', patience=2`
       - `Batch Size` : `128`
       - `Activation` : `relu`
@@ -96,7 +100,7 @@
   - 일부 패키지 설치 필요 (이 때, 파이썬 버전 무관함)
     - `conda install -c conda-forge pandas`
   - 이 때, 1차 가공을 위한 라이프로그 데이터셋의 자세한 경로는 아래 캡처를 참조할 것
-
+    ![경로확인](https://user-images.githubusercontent.com/66122975/231943075-e329cfc5-dc04-4958-be45-0cba18586ee0.png)
 
 **2. 데이터 전처리**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
   - Colab을 이용하 패키지 설치 불필요함
