@@ -13,7 +13,7 @@
   - 1차 가공에 이용됨
 
 
-## (원천) 데이터세트
+## 데이터세트
 - ETRI 라이프로그 데이터세트
   - https://nanum.etri.re.kr/share/schung1/ETRILifelogDataset2020?lang=ko_KR
     - user01-06 data
@@ -21,12 +21,11 @@
     - user11-12 data
     - user21-25 data
     - user26-30 data
-
-
+  - 해당 데이터를 활용해 가공하여 모델 학습 및 평가에 사용함
 
 ## 데이터 전처리
-- 1차 가공 : 위 사용자별 라이프로그 데이터세트를 합친 결과를 도출하고자 함 (원천 데이터 처리)
-  - data_handing/get_user_data.ipynb (Local)
+- 1차 가공 : 위 사용자별 라이프로그 데이터세트를 합친 1개의 결과를 도출하는 과정
+  - (Local) data_handing/get_user_data.ipynb 
   - 적용 로직
     - 사용자별 label.csv이 없는 경우 제외
     - 행 중복 제거
@@ -34,8 +33,8 @@
       - 년, 월, 일, 오전/오후 여부, 주말여부 등
   - 전체 사용자를 합친 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
 
-- 2차 가공 : 1차 가공된 데이터를 기반으로 실제 모델에 이용될 입/출력 데이터세트를 도출하고자 함
-  - 첨부 코드 1. 데이터 전처리 (Colab)
+- 2차 가공 : 1차 가공된 데이터를 기반으로 실제 모델에 이용될 입/출력 데이터세트를 도출하는 과정
+  - (Colab) 첨부 코드 1. 데이터 전처리
   - 1차 가공된 데이터는 깃에 업로드되어 있으므로 업로드된 데이터를 이용해 Colab에서 2차 가공 수행함
   - 적용 로직
     - 결측행 제거
@@ -95,7 +94,6 @@
 | 제안모델2_보조분류_흥미도   	|     20     	|       0.4       	|  72.15% 	|    71.90%    	|
 | 제안모델3_보조분류_활동상세 	|     20     	|       0.6       	|  72.32% 	|    71.84%    	|
 
-
 #### (3) Epochs = 100, Early stopping 적용(실험 파라매터 참조할 것)
 |        **Model type**       	| **Epochs** 	| **Loss Weight** 	| **Accuracy** 	| **Macro F1** 	|
 |:---------------------------:	|:----------:	|:---------------:	|:-------:	|:------------:	|
@@ -104,9 +102,6 @@
 | 제안모델1_보조분류_감정     	|   100-ES   	|       0.1       	|  72.71% 	|    **72.48%**    	|
 | 제안모델2_보조분류_흥미도   	|   100-ES   	|       0.7       	|  **72.78%** 	|    72.23%    	|
 | 제안모델3_보조분류_활동상세 	|   100-ES   	|       0.8       	|  72.76% 	|    72.27%    	|
-
-
-
 
 ## 코드 이용 방법
 **1. 원천 데이터 처리**
@@ -118,7 +113,7 @@
     ![경로확인](https://user-images.githubusercontent.com/66122975/231943075-e329cfc5-dc04-4958-be45-0cba18586ee0.png)
 
 **2. 데이터 전처리**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
-  - Colab을 이용하 패키지 설치 불필요함
+  - Colab을 이용하므로 패키지 설치 불필요함
   - 본 실험에서는 모델 과적합을 피하기 위해 언더 샘플링을 수행함
     - 위 첨부 코드에서 `do_undersampling` = `True`로 설정되어 있음
     - `do_undersampling` = `False`로 설정한다면 언더 샘플링을 수행하지 않음
@@ -127,7 +122,6 @@
       - https://raw.githubusercontent.com/hkboo/paper_lifelog/main/outputs/data_undersampled.csv
 
 **3. 모델 학습 및 평가**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
-  - 해당 코드는 `Epochs = 2`일 때의 예시를 포함함
   - Colab을 이용하므로 패키지 설치 불필요함
   - 자동으로 산출물 저장가능케 설정함
     - 본인의 산출물 경로가 있는 경우 `MODEL_OUTPUT_PATH` 변수에 경로 지정할 것
@@ -135,3 +129,4 @@
     - 본 실험에서는 `10`, `20`, `100`을 지정해 실험 수행하였음
   - 최종 산출물은 지정된 `MODEL_OUTPUT_PATH` 경로 내 파일명 `전체정확도.csv`로 저장됨
     - 중간 각 모델별로 loop별 결과를 누적해 저장될 수 있도록 함 (함수 `save_result(control_type, result_dataframe)`)
+  - 해당 코드는 `Epochs = 2`일 때의 결과를 포함하는 예시임
