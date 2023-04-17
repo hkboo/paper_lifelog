@@ -27,11 +27,11 @@
 - 1차 가공 : 위 사용자별 라이프로그 데이터세트를 합친 1개의 결과를 도출하는 과정
   - (Local) data_handing/get_user_data.ipynb 
   - 적용 로직
-    - 사용자별 label.csv이 없는 경우 제외
+    - 사용자별 `label.csv`이 없는 경우 제외
     - 행 중복 제거
     - ts 컬럼으로부터 파생 변수 생성
       - 년, 월, 일, 오전/오후 여부, 주말여부 등
-  - 전체 사용자를 합친 1차 가공 결과는 data_handing/outputs/all_users_data.csv 로 저장됨
+  - 전체 사용자를 합친 1차 가공 결과는 `data_handing/outputs/all_users_data.csv`로 저장됨
 
 - 2차 가공 : 1차 가공된 데이터를 기반으로 실제 모델에 이용될 입/출력 데이터세트를 도출하는 과정
   - (Colab) 첨부 코드 1. 데이터 전처리
@@ -58,8 +58,7 @@
 
 ## 모델 학습 및 평가
 - 비교, 제안 모델 학습 및 평가
-
-  - 첨부 코드 2. 모델 학습 및 평가 (Colab)
+  - (Colab) 첨부 코드 2. 모델 학습 및 평가
   - 데이터 전처리 과정에서 `2차 가공된 데이터(data_undersampled.csv)`를 이용하여 모델 학습 및 평가를 수행함
   - 즉, 비교 모델과 제안 모델의 정확도 비교하고자 함
   - `Epochs`와 `Loss Weight`를 제외한 나머지 파라매터는 모두 고정하였으며 실험 파라매터는 다음과 같음
@@ -106,10 +105,10 @@
 ## 코드 이용 방법
 **1. 원천 데이터 처리**
   - data_handing/get_user_data.ipynb
-  - 데이터의 용량이 크므로 해당 과정은 Colab을 이용하지 않고 로컬에서 1차 가공 과정을 수행함
+  - 라이프로그 데이터세트의 경우의 용량이 매우 크기 때문에 Colab을 이용하지 않고 로컬에서 1차 가공 과정을 수행함
   - 일부 패키지 설치 필요 (이 때, 파이썬 버전 무관함)
     - `conda install -c conda-forge pandas`
-  - 이 때, 1차 가공을 위한 라이프로그 데이터셋의 자세한 경로는 아래 캡처를 참조할 것
+  - 이 때, 1차 가공을 위한 라이프로그 데이터세트의 자세한 경로는 아래 캡처를 참조할 것
     ![경로확인](https://user-images.githubusercontent.com/66122975/231943075-e329cfc5-dc04-4958-be45-0cba18586ee0.png)
 
 **2. 데이터 전처리**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1et6TvdwUNq8Q8PNjQnMJk7cZLi_Pcwbh?usp=sharing)
