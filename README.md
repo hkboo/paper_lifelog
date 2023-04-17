@@ -127,11 +127,11 @@
       - https://raw.githubusercontent.com/hkboo/paper_lifelog/main/outputs/data_undersampled.csv
 
 **3. 모델 학습 및 평가**  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1IH27LkiT3BtSZRFiSc6JimiSGiSALQXh?usp=sharing)
-  - 해당 코드는 epoch = 2일 때의 예시를 포함함
+  - 해당 코드는 `Epochs = 2`일 때의 예시를 포함함
   - Colab을 이용하므로 패키지 설치 불필요함
   - 자동으로 산출물 저장가능케 설정함
     - 본인의 산출물 경로가 있는 경우 `MODEL_OUTPUT_PATH` 변수에 경로 지정할 것
-  - 위 첨부 코드에서 `EPOCH_N` 변수에 원하는 Epoch를 지정할 것
+  - 위 첨부 코드에서 `EPOCH_N` 변수에 원하는 Epochs을 지정할 것
     - 본 실험에서는 `10`, `20`, `100`을 지정해 실험 수행하였음
   - 최종 산출물은 지정된 `MODEL_OUTPUT_PATH` 경로 내 파일명 `전체정확도.csv`로 저장됨
     - 중간 각 모델별로 loop별 결과를 누적해 저장될 수 있도록 함 (함수 `save_result(control_type, result_dataframe)`)
